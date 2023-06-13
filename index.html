@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ChatGPT Frontend</title>
+</head>
+<body>
+  <h1>ChatGPT Frontend</h1>
+
+  <form id="chatForm" onsubmit="handleSubmit(event)">
+    <label for="prompt">Enter your prompt:</label>
+    <input type="text" id="prompt" name="prompt" required>
+    <button type="submit">Send</button>
+  </form>
+
+  <div id="response"></div>
+
+  <script>
+    async function handleSubmit(event) {
+      event.preventDefault();
+      
+      const promptInput = document.getElementById('prompt').value;
+      console.log("promptInput : "+promptInput);
+      const responseElement = document.getElementById('response');
+
+      // Send the prompt to the server
+      const response = await fetch('http://localhost:4000/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prompt: promptInput })
+      });
+
+      // Get the response from the server
+      const responseData = await response.json();
+      console.log("responseData  : "+responseData);
+      const generatedText = responseData.data.trim();
+      console.log("generatedText   : "+generatedText);
+
+      // Display the response
+      responseElement.innerHTML = '<p><strong>Response:</strong></p><p>' + generatedText + '</p>';
+    //   sessionStorage.setItem(promptInput,generatedText);
+      localStorage.setItem(promptInput,generatedText);
+    }
+  </script>
+</body>
+</html>

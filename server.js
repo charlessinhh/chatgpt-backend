@@ -3,6 +3,7 @@ import cors from "cors";
 import { Configuration, OpenAIApi } from "openai";
 
 const configuration = new Configuration({
+  // donot provide api key in public repo
   // apiKey: "",
 });
 
